@@ -12,27 +12,32 @@ import com.driver.repository.DriverRepository;
 @Service
 public class DriverServiceImpl implements DriverService {
 
-	@Autowired
-	DriverRepository driverRepository3;
+    @Autowired
+    DriverRepository driverRepository3;
 
-	@Autowired
-	CabRepository cabRepository3;
+    @Autowired
+    CabRepository cabRepository3;
 
-	@Override
-	public void register(String mobile, String password){
-		//Save a driver in the database having given details and a cab with ratePerKm as 10 and availability as True by default.
+    @Override
+    public void register(String mobile, String password){
+        Driver driver = new Driver(mobile,password);
+        Cab cab = new Cab();
+        cab.setPerKmRate(10);
+        cab.setAvailable(true);
+        driver.setCab(cab);
+        driverRepository3.save(driver);
+    }
+12
+    @Override
+    public void removeDriver(int driverId){
+        Driver d = driverRepository3.findById(driverId).get();
+        driverRepository3.delete(d);
+    }
 
-	}
-
-	@Override
-	public void removeDriver(int driverId){
-		// Delete driver without using deleteById function
-
-	}
-
-	@Override
-	public void updateStatus(int driverId){
-		//Set the status of respective car to unavailable
-
-	}
+    @Override
+    public void updateStatus(int driverId){
+        Driver d = driverRepository3.findById(driverId).get();
+        d.getCab().setAvailable(false);
+        driverRepository3.save(d);
+    }
 }
