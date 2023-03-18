@@ -27,7 +27,6 @@ public class DriverServiceImpl implements DriverService {
         driver.setCab(cab);
         driverRepository3.save(driver);
     }
-12
     @Override
     public void removeDriver(int driverId){
         Driver d = driverRepository3.findById(driverId).get();
